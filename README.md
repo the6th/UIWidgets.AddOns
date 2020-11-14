@@ -3,7 +3,7 @@
  
  ## Requirements
  * Unity 2019.3.15f1 (I tried)
- * UIWidgets 1.5.4  [Unity Asset Store]((https://assetstore.unity.com/packages/tools/gui/uiwidgets-146398)) | [GitHub](https://github.com/UnityTech/UIWidgets/releases)
+ * UIWidgets 1.5.4  [Unity Asset Store](https://assetstore.unity.com/packages/tools/gui/uiwidgets-146398) | [GitHub](https://github.com/UnityTech/UIWidgets/releases)
  
  
 ## Contains
