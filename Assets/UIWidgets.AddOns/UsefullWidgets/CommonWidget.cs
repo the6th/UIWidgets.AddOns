@@ -33,25 +33,32 @@ namespace UIWidgets.AddOns
         public static Widget SettingDropDown(string title, List<string> itemList, int selectedIndex = 0, ValueChanged<int> callback = null)
         {
             return new Container(
-                padding: EdgeInsets.symmetric(horizontal: 16f),
+                padding: EdgeInsets.symmetric(horizontal: 6f),
                 child: new Row(
                     children: new List<Widget>
                     {
-                        new Container(width:100,child: new Text(title)),
-                        new DropdownButton<string>(
-                                value: itemList[selectedIndex],
-                                onChanged: (string newValue) => {
-                                    int index = itemList.FindLastIndex(s=>s.Equals(newValue));
-                                    //Debug.Log($"onChanged:{newValue} at {index}");
-                                    callback?.Invoke(index);
-                                },
-                                items: itemList.Select<string, DropdownMenuItem<string>>(value => {
-                                    return new DropdownMenuItem<string>(
-                                        value: value,
-                                        child: new Text(value)
-                                    );
-                                }).ToList()
-                        )
+                        new Container(child: new Text(title)),
+                        new Expanded(
+                        child: new Container(
+                            //color: Colors.red,
+                            alignment: Alignment.bottomRight,
+                            child:  new DropdownButton<string>(
+                                        style: new TextStyle(fontSize:14),
+                                        value: itemList[selectedIndex],
+                                        onChanged: (string newValue) => {
+                                            int index = itemList.FindLastIndex(s=>s.Equals(newValue));
+                                            //Debug.Log($"onChanged:{newValue} at {index}");
+                                            callback?.Invoke(index);
+                                        },
+                                        items: itemList.Select<string, DropdownMenuItem<string>>(value => {
+                                            return new DropdownMenuItem<string>(
+                                                value: value,
+                                                child: new Text(value)
+                                            );
+                                        }).ToList()
+                                    )//dropdown
+                            )//container
+                        )//expanded
                     }
             )
             );
@@ -60,7 +67,7 @@ namespace UIWidgets.AddOns
         {
             return new Container(
                 //color: Colors.red,
-                padding: EdgeInsets.symmetric(horizontal: 16f),
+                padding: EdgeInsets.symmetric(horizontal: 6f),
                 child: new Row(
                     children: new List<Widget>
                     {
@@ -78,21 +85,25 @@ namespace UIWidgets.AddOns
         public static Widget SettingCheckbox(string title, bool? b, ValueChanged<bool?> callback = null)
         {
             return new Container(
-                padding: EdgeInsets.symmetric(horizontal: 16f),
+
+                padding: EdgeInsets.symmetric(horizontal: 6f),
                 child: new Row(
                     children: new List<Widget>
                     {
-                        new Container(width:100, child: new Text(title)),
-                        new Container(
-                            alignment: Alignment.centerRight,
-                            child:  new Checkbox(
-                                    value: b,
-                                    onChanged:(bool? value)=>{
-                                        //Debug.Log($"SettingCheckbox:{value}");
-                                        callback?.Invoke(value);
-                                    }
-                                )//Checkbox
-                        )//Container
+                        new Container( child: new Text(title)),
+                        new Expanded(
+                            child: new Container(
+                                    //color: Colors.red,
+                                    alignment: Alignment.centerRight,
+                                    child:  new Checkbox(
+                                            value: b,
+                                            onChanged:(bool? value)=>{
+                                                //Debug.Log($"SettingCheckbox:{value}");
+                                                callback?.Invoke(value);
+                                            }
+                                        )//Checkbox
+                                )//Container
+                        )//Expanded
                     }//list
                 )//row
             );
@@ -101,44 +112,48 @@ namespace UIWidgets.AddOns
         public static Widget SettingValueUpDown(string title, string value, VoidCallback upPressed = null, VoidCallback downPressed = null)
         {
             return new Container(
-                padding: EdgeInsets.symmetric(horizontal: 16f),
+                padding: EdgeInsets.symmetric(horizontal: 6f),
                 child: new Row(
                     children: new List<Widget>
                     {
                         new Container(
-                            width:100,
                             child: new Text(title)
                         ),
-                        new Container(
-                            width:100,
-                            padding: EdgeInsets.symmetric(horizontal: 16f),
-
-                            alignment: Alignment.centerRight,
-                            child: new Text(value.ToString())
-                        ),
-                        new Column(
-                            children: new List<Widget>{
-                                new Container(
-                                    decoration: new BoxDecoration(
-                                        //color: Colors.grey,
-                                        border: new Border(bottom: new BorderSide(width:0.1f,color: Colors.black26))
+                        new Expanded(
+                            child: new Row(
+                                mainAxisAlignment:Unity.UIWidgets.rendering.MainAxisAlignment.end,
+                                children:    new List<Widget>
+                                {
+                                    new Container(
+                                        padding: EdgeInsets.symmetric(horizontal: 16f),
+                                        child: new Text(value.ToString())
                                     ),
-                                    child:new InkWell(
-                                        child: new Icon(Icons.arrow_drop_up,size:18),
-                                        onTap: ()=>{upPressed?.Invoke();}
-                                    )//InkWell
-                                ),//Container
-                                new Container(
-                                    decoration: new BoxDecoration(
-                                        border: new Border(bottom: new BorderSide(width:0.5f,color:Colors.white))
-                                    ),
-                                    child:new InkWell(
-                                        child: new Icon(Icons.arrow_drop_down,size:18),
-                                        onTap: ()=>{downPressed?.Invoke();}
-                                    )//InkWell
-                                )//Container
-                            }
-                        ),//column
+                                    new Column(
+                                                
+                                        children: new List<Widget>{
+                                            new Container(
+                                                decoration: new BoxDecoration(
+                                                    border: new Border(bottom: new BorderSide(width:0.1f,color: Colors.black26))
+                                                ),
+                                                child:new InkWell(
+                                                    child: new Icon(Icons.arrow_drop_up,size:18),
+                                                    onTap: ()=>{upPressed?.Invoke();}
+                                                )//InkWell
+                                            ),//Container
+                                            new Container(
+                                                decoration: new BoxDecoration(
+                                                    border: new Border(bottom: new BorderSide(width:0.5f,color:Colors.white))
+                                                ),
+                                                child:new InkWell(
+                                                    child: new Icon(Icons.arrow_drop_down,size:18),
+                                                    onTap: ()=>{downPressed?.Invoke();}
+                                                )//InkWell
+                                            )//Container
+                                        }
+                                    ),//column
+                                }//end children
+                            )//row
+                        )//expanded
                     }//list
                 )//row
             );
@@ -147,60 +162,62 @@ namespace UIWidgets.AddOns
         public static Widget SettingValueUpDownButton(string title, string value, VoidCallback upPressed = null, VoidCallback downPressed = null, string upButtonText = "+", string downButtontext = "-")
         {
             return new Container(
-                padding: EdgeInsets.symmetric(horizontal: 16f),
+                padding: EdgeInsets.symmetric(horizontal: 6f),
                 child: new Row(
                     children: new List<Widget>
                     {
                         new Container(
-                            width:100,
                             child: new Text(title)
                         ),
-                        new Container(
-                            //color:Colors.blue,
-                            width:40,
-                            child:new RaisedButton(
-                                padding: EdgeInsets.zero,
-                                child:  new Text(downButtontext),
-                                color: Colors.white,
-                                shape: new CircleBorder(
-                                    side: new BorderSide(
-                                        color:  Colors.grey,
-                                        width:  1,
-                                        style:  BorderStyle.solid
-                                    )//BorderSide
-                                ),//CircleBorder
-                                onPressed:  ()=>{
-                                    downPressed?.Invoke();
+                        new Expanded(
+                            child: new Row(
+                                mainAxisAlignment:Unity.UIWidgets.rendering.MainAxisAlignment.end,
+                                children:new List<Widget>
+                                {
+                                    new Container(
+                                        width:40,
+                                        child:new RaisedButton(
+                                            padding: EdgeInsets.zero,
+                                            child:  new Text(downButtontext),
+                                            color: Colors.white,
+                                            shape: new CircleBorder(
+                                                side: new BorderSide(
+                                                    color:  Colors.grey,
+                                                    width:  1,
+                                                    style:  BorderStyle.solid
+                                                )//BorderSide
+                                            ),//CircleBorder
+                                            onPressed:  ()=>{
+                                                downPressed?.Invoke();
+                                            }
+                                        )
+                                    ),//RaisedButton
+                                    new Container(
+                                        padding: EdgeInsets.symmetric(horizontal: 16f),
+                                        alignment: Alignment.center,
+                                        child: new Text(value.ToString())
+                                    ),
+                                    new Container(
+                                        width:40,
+                                        child:new RaisedButton(
+                                            padding: EdgeInsets.zero,
+                                            child:  new Text(upButtonText),
+                                            color: Colors.white,
+                                            shape: new CircleBorder(
+                                                side: new BorderSide(
+                                                    color:  Colors.grey,
+                                                    width:  1,
+                                                    style:  BorderStyle.solid
+                                                )//BorderSide
+                                            ),//CircleBorder
+                                            onPressed:  ()=>{
+                                                upPressed?.Invoke();
+                                            }
+                                        )//RaisedButton
+                                    )//Container
                                 }
-                            )
-                        ),//RaisedButton
-                        new Container(
-                            //width:10,
-                            //color: Colors.red,
-                            padding: EdgeInsets.symmetric(horizontal: 16f),
-                            alignment: Alignment.centerRight,
-                            child: new Text(value.ToString())
-                        ),
-                        new Container(
-                            //color:Colors.blue,
-                            width:40,
-                            child:new RaisedButton(
-                                padding: EdgeInsets.zero,
-                                child:  new Text(upButtonText),
-                                color: Colors.white,
-                                shape: new CircleBorder(
-                                    side: new BorderSide(
-                                        color:  Colors.grey,
-                                        width:  1,
-                                        style:  BorderStyle.solid
-                                    )//BorderSide
-                                ),//CircleBorder
-                                onPressed:  ()=>{
-                                    upPressed?.Invoke();
-                                }
-                            )
-                        )//RaisedButton
-
+                            )//Container
+                        )//Expand
                     }//list
                 )//row
             );
