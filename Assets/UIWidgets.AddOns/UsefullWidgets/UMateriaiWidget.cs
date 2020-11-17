@@ -4,13 +4,14 @@ using Unity.UIWidgets.cupertino;
 using Unity.UIWidgets.foundation;
 using Unity.UIWidgets.material;
 using Unity.UIWidgets.painting;
+using Unity.UIWidgets.rendering;
 using Unity.UIWidgets.ui;
 using Unity.UIWidgets.widgets;
 using UnityEngine;
 
 namespace UIWidgets.AddOns
 {
-    public class CommonWidget
+    public class UMateriaiWidget
     {
         public static Widget SettingTitle(string text = "title")
         {
@@ -30,7 +31,7 @@ namespace UIWidgets.AddOns
             );
         }
 
-        public static Widget SettingDropDown(string title, List<string> itemList, int selectedIndex = 0, ValueChanged<int> callback = null)
+        public static Widget SettingDropDown(string title, List<string> itemList, int selectedIndex = 0, ValueChanged<int> onValueChanged = null)
         {
             return new Container(
                 padding: EdgeInsets.symmetric(horizontal: 6f),
@@ -43,26 +44,27 @@ namespace UIWidgets.AddOns
                             //color: Colors.red,
                             alignment: Alignment.bottomRight,
                             child:  new DropdownButton<string>(
-                                        style: new TextStyle(fontSize:14),
-                                        value: itemList[selectedIndex],
-                                        onChanged: (string newValue) => {
-                                            int index = itemList.FindLastIndex(s=>s.Equals(newValue));
-                                            //Debug.Log($"onChanged:{newValue} at {index}");
-                                            callback?.Invoke(index);
-                                        },
-                                        items: itemList.Select<string, DropdownMenuItem<string>>(value => {
-                                            return new DropdownMenuItem<string>(
-                                                value: value,
-                                                child: new Text(value)
-                                            );
-                                        }).ToList()
-                                    )//dropdown
+                                    style: new TextStyle(fontSize:14),
+                                    value: itemList[selectedIndex],
+                                    onChanged: (string newValue) => {
+                                        int index = itemList.FindLastIndex(s=>s.Equals(newValue));
+                                        //Debug.Log($"onChanged:{newValue} at {index}");
+                                        onValueChanged?.Invoke(index);
+                                    },
+                                    items: itemList.Select<string, DropdownMenuItem<string>>(value => {
+                                        return new DropdownMenuItem<string>(
+                                            value: value,
+                                            child: new Text(value)
+                                        );
+                                    }).ToList()
+                                )//dropdown
                             )//container
                         )//expanded
-                    }
-            )
+                    }//list
+                )//row
             );
         }
+        
         public static Widget SettingToggle(string title, bool b)
         {
             return new Container(
@@ -82,10 +84,10 @@ namespace UIWidgets.AddOns
                 )//row
             );
         }
-        public static Widget SettingCheckbox(string title, bool? b, ValueChanged<bool?> callback = null)
+        
+        public static Widget SettingCheckbox(string title, bool? value, ValueChanged<bool?> onValueChanged = null)
         {
             return new Container(
-
                 padding: EdgeInsets.symmetric(horizontal: 6f),
                 child: new Row(
                     children: new List<Widget>
@@ -93,22 +95,22 @@ namespace UIWidgets.AddOns
                         new Container( child: new Text(title)),
                         new Expanded(
                             child: new Container(
-                                    //color: Colors.red,
-                                    alignment: Alignment.centerRight,
-                                    child:  new Checkbox(
-                                            value: b,
-                                            onChanged:(bool? value)=>{
-                                                //Debug.Log($"SettingCheckbox:{value}");
-                                                callback?.Invoke(value);
-                                            }
-                                        )//Checkbox
-                                )//Container
+                                //color: Colors.red,
+                                alignment: Alignment.centerRight,
+                                child:  new Checkbox(
+                                    value: value,
+                                    onChanged:(bool? _value)=>{
+                                        //Debug.Log($"SettingCheckbox:{value}");
+                                        onValueChanged?.Invoke(_value);
+                                    }
+                                )//Checkbox
+                            )//Container
                         )//Expanded
                     }//list
                 )//row
             );
         }
-
+        
         public static Widget SettingValueUpDown(string title, string value, VoidCallback upPressed = null, VoidCallback downPressed = null)
         {
             return new Container(
@@ -129,7 +131,7 @@ namespace UIWidgets.AddOns
                                         child: new Text(value.ToString())
                                     ),
                                     new Column(
-                                                
+
                                         children: new List<Widget>{
                                             new Container(
                                                 decoration: new BoxDecoration(
@@ -158,7 +160,7 @@ namespace UIWidgets.AddOns
                 )//row
             );
         }
-
+        
         public static Widget SettingValueUpDownButton(string title, string value, VoidCallback upPressed = null, VoidCallback downPressed = null, string upButtonText = "+", string downButtontext = "-")
         {
             return new Container(
@@ -218,6 +220,94 @@ namespace UIWidgets.AddOns
                                 }
                             )//Container
                         )//Expand
+                    }//list
+                )//row
+            );
+        }
+        
+        public static Widget SettingSlider(string title, float value, float min = 0f, float max = 1f, int divisions = 10, ValueChanged<float> valueChanged = null)
+        {
+            return new Container(
+                padding: EdgeInsets.symmetric(horizontal: 6f),
+                child: new Row(
+                    children: new List<Widget>
+                    {
+                        new Container(child: new Text(title)),
+                        new Expanded(
+                            child: new Container(
+                                //color: Colors.red,
+                                alignment: Alignment.bottomRight,
+                                child:  new Slider(
+                                    label: $"{value:N1}",
+                                    min: min,
+                                    max: max,
+                                    value: value,
+                                    activeColor: Colors.black,
+                                    inactiveColor: Colors.grey,
+                                    divisions:divisions,
+                                    onChanged:valueChanged
+                                )//slider
+                            )//container
+                        ),//expanded
+                        new ConstrainedBox(
+                            constraints:new BoxConstraints(
+                                minWidth:30
+                            ),
+                            child:new Container(
+                                alignment:Alignment.centerRight,
+                                child:new Text(value.ToString())
+                            )
+                        )//ConstrainedBox
+                    }//list
+                )//row
+            );
+        }
+
+        public static Widget SettingInputField(string title, string value, ValueChanged<string> valueChanged = null)
+        {
+            TextEditingController _textEditingController = new TextEditingController(text: value);
+            return new Container(
+                padding: EdgeInsets.symmetric(horizontal: 6f),
+                child: new Row(
+                    children: new List<Widget>
+                    {
+                        new Container(child: new Text(title)),
+                        new Container(width:20),
+                        new Expanded(
+                            child: new Container(
+                                alignment: Alignment.bottomRight,
+                                child:  new TextField(
+                                    //textAlign: TextAlign.right,
+                                    controller:_textEditingController,
+                                    onChanged:valueChanged
+                                )
+                            )//container
+                        )//expanded
+                    }//list
+                )//row
+            ); ;
+        }
+
+        public static Widget SettingButton(string title, string buttonName, VoidCallback onPressed = null)
+        {
+            return new Container(
+                padding: EdgeInsets.symmetric(horizontal: 6f),
+                child: new Row(
+                    children: new List<Widget>
+                    {
+                        new Container(child: new Text(title)),
+                        new Expanded(
+                            child: new Container(
+                                //color: Colors.red,
+                                padding: EdgeInsets.all(6),
+                                alignment: Alignment.bottomRight,
+                                child:  new RaisedButton(
+
+                                   child:   new Text(buttonName),
+                                   onPressed:onPressed
+                                )
+                            )//container
+                        ),//expanded
                     }//list
                 )//row
             );
