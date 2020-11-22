@@ -623,20 +623,16 @@ namespace UIWidgets.AddOns
                     onColorChanged(Utils.hslToHsv(Utils.hsvToHsl(hsvColor).withLightness(progress)));
                     break;
                 case TrackType.red:
-                    onColorChanged(HSVColorExtention.fromColor(
-                        hsvColor.toColor().withRed((progress * 0xff).round())));
+                    onColorChanged(HSVColorExtention.fromColor(hsvColor.toColor().withRed((progress * 0xff).round())));
                     break;
                 case TrackType.green:
-                    onColorChanged(HSVColorExtention.fromColor(
-                        hsvColor.toColor().withGreen((progress * 0xff).round())));
+                    onColorChanged(HSVColorExtention.fromColor(hsvColor.toColor().withGreen((progress * 0xff).round())));
                     break;
                 case TrackType.blue:
-                    onColorChanged(HSVColorExtention.fromColor(
-                        hsvColor.toColor().withBlue((progress * 0xff).round())));
+                    onColorChanged(HSVColorExtention.fromColor(hsvColor.toColor().withBlue((progress * 0xff).round())));
                     break;
                 case TrackType.alpha:
-                    onColorChanged(hsvColor.withAlpha(
-                        localDx.clamp(0f, box.maxWidth - 30f) / (box.maxWidth - 30f)));
+                    onColorChanged(hsvColor.withAlpha(localDx.clamp(0f, box.maxWidth - 30f) / (box.maxWidth - 30f)));
                     break;
             }
         }
@@ -700,7 +696,7 @@ namespace UIWidgets.AddOns
                         new LayoutId(
                             id: _SliderLayout.track,
                             child: new ClipRRect(
-                               borderRadius: BorderRadius.all(Radius.circular(50f)),
+                               borderRadius: BorderRadius.all(Radius.circular(3f)),
                                child: new CustomPaint(
                                    painter: new TrackPainter(this.trackType,this.hsvColor)
                                 )//CustomPaint
@@ -724,6 +720,7 @@ namespace UIWidgets.AddOns
                                 builder:(BuildContext __, BoxConstraints _box)=>{
                                     RenderBox getBox = context.findRenderObject() as RenderBox;
                                     return new GestureDetector(
+                                        child: new Container(color:Colors.transparent),
                                         onPanDown:(DragDownDetails details)=> { slideEvent(getBox,box,details.globalPosition); },
                                         onPanUpdate:(DragUpdateDetails details )=>{  slideEvent(getBox,box,details.globalPosition); }
                                      );

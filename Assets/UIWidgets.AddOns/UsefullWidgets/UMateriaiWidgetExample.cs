@@ -4,6 +4,7 @@ using Unity.UIWidgets.material;
 using Unity.UIWidgets.ui;
 using Unity.UIWidgets.widgets;
 using UnityEngine;
+using Color = Unity.UIWidgets.ui.Color;
 
 namespace UIWidgets.AddOns
 {
@@ -32,7 +33,31 @@ namespace UIWidgets.AddOns
             public float floatvalue2 = 0.5f;
             public float sliderValue = 0.5f;
             public string dummyText = "dummy text";
+            public Color color = Colors.yellowAccent;
 
+            public List<Color> availableColors = new List<Color>
+            {
+                Colors.red,
+                Colors.pink,
+                Colors.purple,
+                Colors.deepPurple,
+                Colors.indigo,
+                //Colors.blue,
+                //Colors.lightBlue,
+                //Colors.cyan,
+                //Colors.teal,
+                //Colors.green,
+                //Colors.lightGreen,
+                //Colors.lime,
+                //Colors.yellow,
+                //Colors.amber,
+                //Colors.orange,
+                //Colors.deepOrange,
+                Colors.brown,
+                Colors.grey,
+                Colors.blueGrey,
+                Colors.black
+            };
 
             public override State createState()
             {
@@ -121,6 +146,45 @@ namespace UIWidgets.AddOns
                                             if(widget.floatvalue2 < 1f)
                                                 widget.floatvalue2 +=0.1f;
                                         });
+                                    }
+                                ),
+                                UMateriaiWidget.SettingHSVColorPicker(
+                                    context: context,
+                                    title:"ColorPicker1",
+                                    color: widget.color,
+                                    enableAlpha: false,
+                                    showPreviousColor: false,
+                                    onColorChanged:(Color color)=>{
+                                        setState(()=>{
+                                            widget.color = color;
+                                        });
+                                        Debug.Log("onColorChanged:" + color.ToHexString());
+                                    }
+                                ),
+                                UMateriaiWidget.SettingHSVColorPicker(
+                                    context: context,
+                                    title:"ColorPicker2",
+                                    color: widget.color,
+                                    enableAlpha: false,
+                                    showPreviousColor: true,
+                                    onColorChanged:(Color color)=>{
+                                        setState(()=>{
+                                            widget.color = color;
+                                        });
+                                        Debug.Log("onColorChanged:" + color.ToHexString());
+                                    }
+                                ),
+
+                                UMateriaiWidget.SettingBlockColorPicker(
+                                    context: context,
+                                    title:"ColorBlock",
+                                    color: widget.color,
+                                    availableColors: widget.availableColors,
+                                    onColorChanged:(Color color)=>{
+                                        setState(()=>{
+                                            widget.color = color;
+                                        });
+                                        Debug.Log("onColorChanged:" + color.ToHexString());
                                     }
                                 ),
                                 new Container(height:100)

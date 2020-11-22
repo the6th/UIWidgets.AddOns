@@ -7,7 +7,7 @@ using Color = Unity.UIWidgets.ui.Color;
 
 namespace UIWidgets.AddOns
 {
-    public class Utils
+    public static class Utils
     {
         public static bool useWhiteForeground(Color color, float bias = 1f)
         {
@@ -82,5 +82,15 @@ namespace UIWidgets.AddOns
             Colors.blueGrey,
             Colors.black
         };
+        public static string ToHexString(this Color color, bool withAlpha = true)
+        {
+            string result = "";
+            if (withAlpha)
+                result = $"#{color.red.ToString("X2")}{color.green.ToString("X2")}{color.blue.ToString("X2")}{color.alpha.ToString("X2")}";
+            else
+                result = $"#{color.red.ToString("X2")}{color.green.ToString("X2")}{color.blue.ToString("X2")}";
+
+            return result;
+        }
     }
 }

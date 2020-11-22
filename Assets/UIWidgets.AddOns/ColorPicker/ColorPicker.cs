@@ -128,29 +128,34 @@ namespace UIWidgets.AddOns
                                         new ColorIndicator(currentHsvColor),
                                         new Expanded(
                                             child: new Column(
-                                                children: new List<Widget>
-                                                {
+                                                children: new List<Widget>{
                                                     new SizedBox(
                                                         height:40f,
                                                         width: widget.colorPickerWidth - 75,
                                                         child: colorPickerSlider(TrackType.hue)
                                                     ),
-                                                    (!widget.enableAlpha ? null :new SizedBox(
-                                                        height: 40f,
-                                                        width: widget.colorPickerWidth - 75,
-                                                        child: colorPickerSlider(TrackType.alpha)
-                                                    ))//SizedBox
-                                                }//List
+                                                    new Visibility(
+                                                        visible: widget.enableAlpha,
+                                                        child: new SizedBox(
+                                                            height: 40f,
+                                                            width: widget.colorPickerWidth - 75,
+                                                            child: colorPickerSlider(TrackType.alpha)
+                                                        )//SizedBox
+                                                    )//Visibility
+                                                }
                                             )//Column
                                         )//Expanded
                                     }
                                 )//Row
                             ),//Padding
-                            (!widget.showLabel ? null : new ColorPickerLabel(
-                                currentHsvColor,
-                                enableAlpha: widget.enableAlpha,
-                                textStyle: widget.labelTextStyle
-                            )),
+                            new Visibility(
+                                visible: widget.showLabel,
+                                child: new ColorPickerLabel(
+                                    currentHsvColor,
+                                    enableAlpha: widget.enableAlpha,
+                                    textStyle: widget.labelTextStyle
+                                )
+                            ),
                             new SizedBox(height:20f)
                         }//List
                     );//Column
@@ -175,30 +180,34 @@ namespace UIWidgets.AddOns
                                             new SizedBox(width:20f),
                                             new ColorIndicator(currentHsvColor),
                                             new Column(
-                                                children: new List<Widget>
-                                                {
+                                                children: new List<Widget>{
                                                     new SizedBox(
                                                         height:40f,
                                                         width:260f,
                                                         child: colorPickerSlider(TrackType.hue)
                                                     ),
-                                                    (!widget.enableAlpha ? null : new SizedBox(
-                                                        height: 40f,
-                                                        width:260f,
-                                                        child: colorPickerSlider(TrackType.alpha)
-
-                                                    ))
+                                                    new Visibility(
+                                                        visible: widget.enableAlpha,
+                                                        child: new SizedBox(
+                                                            height: 40f,
+                                                            width: 260f,
+                                                            child: colorPickerSlider(TrackType.alpha)
+                                                        )
+                                                    )
                                                 }
                                             ),//Column
                                             new SizedBox(width:10f)
                                         }
                                     ),//Row
                                     new SizedBox(width:10f),
-                                    (!widget.showLabel ? null : new ColorPickerLabel(
-                                        currentHsvColor,
-                                        enableAlpha: widget.enableAlpha,
-                                        textStyle: widget.labelTextStyle
-                                    ))
+                                    new Visibility(
+                                        visible: widget.showLabel,
+                                        child: new ColorPickerLabel(
+                                            currentHsvColor,
+                                            enableAlpha: widget.enableAlpha,
+                                            textStyle: widget.labelTextStyle
+                                        )//ColorPickerLabel
+                                    )//Visibility
                                 }
                             )//Column
                         }
@@ -221,8 +230,8 @@ namespace UIWidgets.AddOns
         public TextStyle labelTextStyle;
         public bool showIndicator;
         public Size indicatorSize;
-        public Alignment indicatorAlignmentBegin;
-        public Alignment indicatorAlignmentEnd;
+        //public AlignmentGeometry indicatorAlignmentBegin;
+        //public AlignmentGeometry indicatorAlignmentEnd;
         public bool displayThumbColor;
         public BorderRadius indicatorBorderRadius;
 
@@ -238,8 +247,8 @@ namespace UIWidgets.AddOns
             bool showLabel = true,
             bool showIndicator = true,
             Size indicatorSize = null,
-            Alignment indicatorAlignmentBegin = null,
-            Alignment indicatorAlignmentEnd = null,
+            //Alignment indicatorAlignmentBegin = null,
+            //Alignment indicatorAlignmentEnd = null,
             bool displayThumbColor = false,
             BorderRadius indicatorBorderRadius = null
             )
@@ -269,15 +278,15 @@ namespace UIWidgets.AddOns
             else
                 this.indicatorSize = indicatorSize;
 
-            if (indicatorAlignmentBegin == null)
-                this.indicatorAlignmentBegin = new Alignment(1f, 3f);
-            else
-                this.indicatorAlignmentBegin = indicatorAlignmentBegin;
+            //if (indicatorAlignmentBegin == null)
+            //    this.indicatorAlignmentBegin = new Alignment(1f, 3f);
+            //else
+            //    this.indicatorAlignmentBegin = indicatorAlignmentBegin;
 
-            if (indicatorAlignmentEnd == null)
-                this.indicatorAlignmentEnd = new Alignment(1f, 3f);
-            else
-                this.indicatorAlignmentEnd = indicatorAlignmentEnd;
+            //if (indicatorAlignmentEnd == null)
+            //    this.indicatorAlignmentEnd = new Alignment(1f, 3f);
+            //else
+            //    this.indicatorAlignmentEnd = indicatorAlignmentEnd;
 
             this.displayThumbColor = displayThumbColor;
 
@@ -318,6 +327,7 @@ namespace UIWidgets.AddOns
                 currentHsvColor,
                 (HSVColor color) =>
                 {
+                    //UnityEngine.Debug.Log(color.toColor());
                     setState(() => { currentHsvColor = color; });
                     widget.onColorChanged(currentHsvColor.toColor());
                 },
@@ -344,8 +354,10 @@ namespace UIWidgets.AddOns
                                 currentHsvColor.toColor(),
                                 currentHsvColor.toColor()
                             },
-                            begin: widget.indicatorAlignmentBegin,
-                            end: widget.indicatorAlignmentEnd,
+                            //begin: widget.indicatorAlignmentBegin,
+                            //end: widget.indicatorAlignmentEnd,
+                            begin: FractionalOffset.topLeft,
+                            end: FractionalOffset.bottomRight,
                             stops: new List<float> { 0f, 0.5f, 0.5f, 1f }
                         )//LinearGradient
                     ),//BoxDecoration
@@ -358,17 +370,16 @@ namespace UIWidgets.AddOns
         {
             List<TrackType> types = new List<TrackType>();
 
-
             switch (widget.paletteType)
             {
                 case PaletteType.hsv:
-                    types = new List<TrackType> { TrackType.hue, TrackType.saturation, TrackType.value };
+                    types = new List<TrackType> { TrackType.hue, TrackType.saturation, TrackType.value, TrackType.alpha };
                     break;
                 case PaletteType.hsl:
-                    types = new List<TrackType> { TrackType.hue, TrackType.saturationForHSL, TrackType.lightness };
+                    types = new List<TrackType> { TrackType.hue, TrackType.saturationForHSL, TrackType.lightness, TrackType.alpha };
                     break;
                 case PaletteType.rgb:
-                    types = new List<TrackType> { TrackType.red, TrackType.green, TrackType.blue };
+                    types = new List<TrackType> { TrackType.red, TrackType.green, TrackType.blue, TrackType.alpha };
                     break;
             }
 
@@ -378,6 +389,8 @@ namespace UIWidgets.AddOns
 
             foreach (var palette in types)
             {
+                if (!widget.enableAlpha && palette == TrackType.alpha) continue;
+
                 sliders.Add(
                     new SizedBox(
                         width: widget.sliderSize.width,
@@ -385,29 +398,33 @@ namespace UIWidgets.AddOns
                         child: new Row(
                             children: new List<Widget>
                             {
-                                (!widget.showSliderText ? null : new Padding(
-                                    padding: EdgeInsets.only(left:10f),
-                                    child: new Text(
-                                        palette.ToString().Split('.').last<string>().ToUpper(),
-                                        style: widget.sliderTextStyle ?? Theme.of(context).textTheme.body1.copyWith(fontWeight:FontWeight.bold,fontSize: 16)
-                                    )//Text
-                                )),//Padding
+                                new Visibility(
+                                    visible: widget.showSliderText,
+                                    child:
+                                        new Padding(
+                                            padding: EdgeInsets.only(left:10f),
+                                            child: new Text(
+                                                palette.ToString().Split('.').last<string>().Substring(0,1).ToUpper(),
+                                                style: widget.sliderTextStyle ?? Theme.of(context).textTheme.body1.copyWith(fontWeight:FontWeight.bold,fontSize: 16)
+                                            )//Text
+                                        )//Padding
+                                ),//Visibility
                                 new Expanded(child: colorPickerSlider(palette))
                             }
                         )//Row
                     )//SizedBox
                 );
             }
-            if (widget.enableAlpha)
-            {
-                sliders.Add(
-                    new SizedBox(
-                        height: 40,
-                        width: 260,
-                        child: colorPickerSlider(TrackType.alpha)
-                    )
-                );
-            }
+            //if (widget.enableAlpha)
+            //{
+            //    sliders.Add(
+            //        new SizedBox(
+            //            height: 40,
+            //            width: 260,
+            //            child: colorPickerSlider(TrackType.alpha)
+            //        )
+            //    );
+            //}
 
             return new Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -416,55 +433,4 @@ namespace UIWidgets.AddOns
             );
         }
     }
-
-
-    public class HSLColor
-    {
-        HSVColor col;
-        public float alpha;
-        public float hue;
-        public float lightness;
-        public float saturation;
-
-        public static HSLColor fromAHSL(float alpha, float hue, float saturation, float lightness)
-        {
-            return new HSLColor(alpha, hue, saturation, lightness);
-        }
-
-        public HSLColor(float alpha, float hue, float saturation, float lightness)
-        {
-            //fromAHSL
-            this.alpha = alpha;
-            this.hue = hue;
-            this.lightness = lightness;
-            this.saturation = saturation;
-        }
-
-        public Color toColor()
-        {
-            //未実装
-            float chroma = this.saturation * this.lightness;
-            float secondary = chroma * (1.0f - (((this.hue / 60.0f) % 2.0f) - 1.0f).abs());
-            float match = this.lightness - chroma;
-            //ColorUtils
-            //return ColorUtils._colorFromHue(this.alpha, this.hue, chroma, secondary, match);
-
-            //return ColorUtils._colorFromHue(this.alpha, this.hue, chroma, secondary, match);
-            //new ColorUtils()
-            throw new System.NotImplementedException();
-
-        }
-
-        public HSLColor withSaturation(float saturation)
-        {
-            return HSLColor.fromAHSL(this.alpha, this.hue, saturation, this.lightness);
-        }
-        public HSLColor withLightness(float lightness)
-        {
-            return HSLColor.fromAHSL(this.alpha, this.hue, this.saturation, lightness);
-        }
-
-    }
-
-
 }

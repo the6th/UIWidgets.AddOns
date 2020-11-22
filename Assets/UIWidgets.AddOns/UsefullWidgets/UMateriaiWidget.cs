@@ -8,6 +8,8 @@ using Unity.UIWidgets.rendering;
 using Unity.UIWidgets.ui;
 using Unity.UIWidgets.widgets;
 using UnityEngine;
+using Color = Unity.UIWidgets.ui.Color;
+using DialogUtils = Unity.UIWidgets.material.DialogUtils;
 
 namespace UIWidgets.AddOns
 {
@@ -64,7 +66,7 @@ namespace UIWidgets.AddOns
                 )//row
             );
         }
-        
+
         public static Widget SettingToggle(string title, bool b)
         {
             return new Container(
@@ -84,7 +86,7 @@ namespace UIWidgets.AddOns
                 )//row
             );
         }
-        
+
         public static Widget SettingCheckbox(string title, bool? value, ValueChanged<bool?> onValueChanged = null)
         {
             return new Container(
@@ -110,7 +112,7 @@ namespace UIWidgets.AddOns
                 )//row
             );
         }
-        
+
         public static Widget SettingValueUpDown(string title, string value, VoidCallback upPressed = null, VoidCallback downPressed = null)
         {
             return new Container(
@@ -160,7 +162,7 @@ namespace UIWidgets.AddOns
                 )//row
             );
         }
-        
+
         public static Widget SettingValueUpDownButton(string title, string value, VoidCallback upPressed = null, VoidCallback downPressed = null, string upButtonText = "+", string downButtontext = "-")
         {
             return new Container(
@@ -224,7 +226,7 @@ namespace UIWidgets.AddOns
                 )//row
             );
         }
-        
+
         public static Widget SettingSlider(string title, float value, float min = 0f, float max = 1f, int divisions = 10, ValueChanged<float> valueChanged = null)
         {
             return new Container(
@@ -312,5 +314,153 @@ namespace UIWidgets.AddOns
                 )//row
             );
         }
+        public static Widget SettingHSVColorPicker(
+           BuildContext context,
+           string title,
+           ValueChanged<Color> onColorChanged,
+           Color color = null,
+           string buttonName = "",
+           bool enableAlpha = false,
+           bool showPreviousColor = false
+        )
+        {
+            if (color == null) color = Colors.blueAccent;
+            if (buttonName == "") buttonName = color.ToHexString(enableAlpha);
+
+            return new Container(
+                padding: EdgeInsets.symmetric(horizontal: 6f),
+                child: new Row(
+                    children: new List<Widget>
+                    {
+                        new Container(child: new Text(title)),
+                        new Expanded(
+                            child: new Container(
+                                padding: EdgeInsets.all(6),
+                                alignment: Alignment.bottomRight,
+                                child:  new RaisedButton(
+                                    color: color,
+                                    child: new Text(
+                                        buttonName,
+                                        style: new TextStyle(
+                                            color:Utils.useWhiteForeground(color) ? Colors.white : Colors.black
+                                        )//TextStyle
+                                    ),//Text
+                                    onPressed:()=>{
+                                      DialogUtils.showDialog(
+                                            context: context,
+                                            builder:(BuildContext _)=>{
+
+                                                if (showPreviousColor)
+                                                {
+                                                    return new AlertDialog(
+                                                        titlePadding: EdgeInsets.all(0),
+                                                        contentPadding: EdgeInsets.all(0f),
+                                                        shape: new RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(25)
+                                                        ),//RoundedRectangleBorder
+                                                        content: new SingleChildScrollView(
+                                                            child: new SlidePicker(
+                                                                pickerColor: color,
+                                                                onColorChanged: onColorChanged,
+                                                                paletteType: PaletteType.hsv,
+                                                                enableAlpha: enableAlpha,
+                                                                displayThumbColor: true,
+                                                                showLabel: false,
+                                                                showIndicator: true,
+                                                                indicatorBorderRadius: BorderRadius.vertical(top: Radius.circular(25))
+                                                            )//SlidePicker
+                                                        )//SingleChildScrollView
+                                                    );//AlertDialog
+                                                }
+                                                else
+                                                {
+                                                    return new AlertDialog(
+                                                        titlePadding: EdgeInsets.all(0f),
+                                                        contentPadding: EdgeInsets.all(0f),
+                                                        content: new SingleChildScrollView(
+                                                            child: new ColorPicker(
+                                                                pickerColor: color,
+                                                                onColorChanged: onColorChanged,
+                                                                colorPickerWidth:300f,
+                                                                pickerAreaHeightPercent:0.7f,
+                                                                enableAlpha: enableAlpha,
+                                                                displayThumbColor: true,
+                                                                showLabel: true,
+                                                                paletteType: PaletteType.hsv,
+                                                                pickerAreaBorderRadius:BorderRadius.only(
+                                                                    topLeft: Radius.circular(2f),
+                                                                    topRight: Radius.circular(2f)
+                                                                )//BorderRadius
+                                                            )//ColorPicker
+                                                        )//SingleChildScrollView
+                                                    );//AlertDialog
+                                                }
+                                            }
+                                        );
+                                    }
+                                )
+                            )//container
+                        ),//expanded
+                    }//list
+                )//row
+            );
+        }
+
+        public static Widget SettingBlockColorPicker(
+           BuildContext context,
+           string title,
+           ValueChanged<Color> onColorChanged,
+           Color color = null,
+           string buttonName = "",
+           List<Color> availableColors = null
+            )
+        {
+            if (color == null) color = Colors.blueAccent;
+            if (buttonName == "") buttonName = color.ToHexString(false);
+            if (availableColors == null) availableColors = Utils._defaultColors;
+
+            return new Container(
+                padding: EdgeInsets.symmetric(horizontal: 6f),
+                child: new Row(
+                    children: new List<Widget>
+                    {
+                        new Container(child: new Text(title)),
+                        new Expanded(
+                            child: new Container(
+                                padding: EdgeInsets.all(6),
+                                alignment: Alignment.bottomRight,
+                                child:  new RaisedButton(
+                                    color: color,
+                                    child: new Text(
+                                        buttonName,
+                                        style: new TextStyle(
+                                            color:Utils.useWhiteForeground(color) ? Colors.white : Colors.black
+                                        )//TextStyle
+                                    ),//Text
+                                    onPressed:()=>{
+                                        DialogUtils.showDialog(
+                                            context: context,
+                                            builder:(BuildContext _) =>{
+                                                return new AlertDialog(
+                                                    title: new Text("Select color"),
+                                                    content: new SingleChildScrollView(
+                                                        child: new BlockPicker(
+                                                            pickerColor: color,
+                                                            onColorChanged: onColorChanged,
+                                                            availableColors:availableColors
+                                                        )//BlockPicker
+                                                    )//SingleChildScrollView
+                                                );//AlertDialog
+                                            }
+                                        );//showDialog
+                                    }
+                                )
+                            )//container
+                        ),//expanded
+                    }//list
+                )//row
+            );
+        }
+
     }
 }
