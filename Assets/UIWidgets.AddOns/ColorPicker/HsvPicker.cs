@@ -623,20 +623,16 @@ namespace UIWidgets.AddOns
                     onColorChanged(Utils.hslToHsv(Utils.hsvToHsl(hsvColor).withLightness(progress)));
                     break;
                 case TrackType.red:
-                    onColorChanged(HSVColorExtention.fromColor(
-                        hsvColor.toColor().withRed((progress * 0xff).round())));
+                    onColorChanged(HSVColorExtention.fromColor(hsvColor.toColor().withRed((progress * 0xff).round())));
                     break;
                 case TrackType.green:
-                    onColorChanged(HSVColorExtention.fromColor(
-                        hsvColor.toColor().withGreen((progress * 0xff).round())));
+                    onColorChanged(HSVColorExtention.fromColor(hsvColor.toColor().withGreen((progress * 0xff).round())));
                     break;
                 case TrackType.blue:
-                    onColorChanged(HSVColorExtention.fromColor(
-                        hsvColor.toColor().withBlue((progress * 0xff).round())));
+                    onColorChanged(HSVColorExtention.fromColor(hsvColor.toColor().withBlue((progress * 0xff).round())));
                     break;
                 case TrackType.alpha:
-                    onColorChanged(hsvColor.withAlpha(
-                        localDx.clamp(0f, box.maxWidth - 30f) / (box.maxWidth - 30f)));
+                    onColorChanged(hsvColor.withAlpha(localDx.clamp(0f, box.maxWidth - 30f) / (box.maxWidth - 30f)));
                     break;
             }
         }
