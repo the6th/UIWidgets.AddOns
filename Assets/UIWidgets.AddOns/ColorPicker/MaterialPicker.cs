@@ -176,11 +176,10 @@ namespace UIWidgets.AddOns
                                             : null
                                             )
                                         )//BoxDecoration
-
-                                    )
-                                )
-                            )
-                        )
+                                    )//AnimatedContainer
+                                )//Align
+                            )//Container
+                        )//GestureDetector
                     );
                 }
                 if (_isPortrait)
