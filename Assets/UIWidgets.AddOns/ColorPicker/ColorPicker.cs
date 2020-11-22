@@ -67,12 +67,13 @@ namespace UIWidgets.AddOns
             public override void initState()
             {
                 base.initState();
-                currentHsvColor = HSVColor.fromColor(widget.pickerColor);
+                currentHsvColor = HSVColorExtention.fromColor(widget.pickerColor);
             }
+
             public override void didChangeDependencies()
             {
                 base.didChangeDependencies();
-                currentHsvColor = HSVColor.fromColor(widget.pickerColor);
+                currentHsvColor = HSVColorExtention.fromColor(widget.pickerColor);
             }
             Widget colorPickerSlider(TrackType trackType)
             {
@@ -301,13 +302,13 @@ namespace UIWidgets.AddOns
         public override void initState()
         {
             base.initState();
-            currentHsvColor = HSVColor.fromColor(widget.pickerColor);
+            currentHsvColor = HSVColorExtention.fromColor(widget.pickerColor);
         }
 
         public override void didUpdateWidget(StatefulWidget oldWidget)
         {
             base.didUpdateWidget(oldWidget);
-            currentHsvColor = HSVColor.fromColor(widget.pickerColor);
+            currentHsvColor = HSVColorExtention.fromColor(widget.pickerColor);
 
         }
 

@@ -79,6 +79,5 @@ namespace UIWidgets.AddOns
           Colors.blueGrey,
           Colors.black
         };
-
     }
 }
