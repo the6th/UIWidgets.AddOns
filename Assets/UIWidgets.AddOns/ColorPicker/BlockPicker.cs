@@ -9,18 +9,9 @@ using Unity.UIWidgets.widgets;
 
 namespace UIWidgets.AddOns
 {
-
-    //typedef PickerLayoutBuilder = Widget Function(
-    //BuildContext context, List<Color> colors, PickerItem child);
-    //typedef PickerItem = Widget Function(Color color);
-    //typedef PickerItemBuilder = Widget Function(
-    //    Color color, bool isCurrentColor, Function changeColor);
-
     public delegate Widget PickerLayoutBuilder(BuildContext context, List<Color> colors, PickerItem child);
     public delegate Widget PickerItem(Color color);
     public delegate Widget PickerItemBuilder(Color color, bool isCurrentColor, GestureTapCallback changeColor);
-
-
 
     public class BlockPicker : StatefulWidget
     {
