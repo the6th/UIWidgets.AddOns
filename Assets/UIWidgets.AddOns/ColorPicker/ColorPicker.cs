@@ -290,9 +290,8 @@ namespace UIWidgets.AddOns
 
         public override State createState()
         {
-            throw new System.NotImplementedException();
+            return new _SlidePickerState();
         }
-
     }
 
     public class _SlidePickerState : State<SlidePicker>
