@@ -128,29 +128,34 @@ namespace UIWidgets.AddOns
                                         new ColorIndicator(currentHsvColor),
                                         new Expanded(
                                             child: new Column(
-                                                children: new List<Widget>
-                                                {
+                                                children: new List<Widget>{
                                                     new SizedBox(
                                                         height:40f,
                                                         width: widget.colorPickerWidth - 75,
                                                         child: colorPickerSlider(TrackType.hue)
                                                     ),
-                                                    (!widget.enableAlpha ? null :new SizedBox(
-                                                        height: 40f,
-                                                        width: widget.colorPickerWidth - 75,
-                                                        child: colorPickerSlider(TrackType.alpha)
-                                                    ))//SizedBox
-                                                }//List
+                                                    new Visibility(
+                                                        visible: widget.enableAlpha,
+                                                        child: new SizedBox(
+                                                            height: 40f,
+                                                            width: widget.colorPickerWidth - 75,
+                                                            child: colorPickerSlider(TrackType.alpha)
+                                                        )//SizedBox
+                                                    )//Visibility
+                                                }
                                             )//Column
                                         )//Expanded
                                     }
                                 )//Row
                             ),//Padding
-                            (!widget.showLabel ? null : new ColorPickerLabel(
-                                currentHsvColor,
-                                enableAlpha: widget.enableAlpha,
-                                textStyle: widget.labelTextStyle
-                            )),
+                            new Visibility(
+                                visible: widget.showLabel,
+                                child: new ColorPickerLabel(
+                                    currentHsvColor,
+                                    enableAlpha: widget.enableAlpha,
+                                    textStyle: widget.labelTextStyle
+                                )
+                            ),
                             new SizedBox(height:20f)
                         }//List
                     );//Column
@@ -175,30 +180,34 @@ namespace UIWidgets.AddOns
                                             new SizedBox(width:20f),
                                             new ColorIndicator(currentHsvColor),
                                             new Column(
-                                                children: new List<Widget>
-                                                {
+                                                children: new List<Widget>{
                                                     new SizedBox(
                                                         height:40f,
                                                         width:260f,
                                                         child: colorPickerSlider(TrackType.hue)
                                                     ),
-                                                    (!widget.enableAlpha ? null : new SizedBox(
-                                                        height: 40f,
-                                                        width:260f,
-                                                        child: colorPickerSlider(TrackType.alpha)
-
-                                                    ))
+                                                    new Visibility(
+                                                        visible: widget.enableAlpha,
+                                                        child: new SizedBox(
+                                                            height: 40f,
+                                                            width: 260f,
+                                                            child: colorPickerSlider(TrackType.alpha)
+                                                        )
+                                                    )
                                                 }
                                             ),//Column
                                             new SizedBox(width:10f)
                                         }
                                     ),//Row
                                     new SizedBox(width:10f),
-                                    (!widget.showLabel ? null : new ColorPickerLabel(
-                                        currentHsvColor,
-                                        enableAlpha: widget.enableAlpha,
-                                        textStyle: widget.labelTextStyle
-                                    ))
+                                    new Visibility(
+                                        visible: widget.showLabel,
+                                        child: new ColorPickerLabel(
+                                            currentHsvColor,
+                                            enableAlpha: widget.enableAlpha,
+                                            textStyle: widget.labelTextStyle
+                                        )//ColorPickerLabel
+                                    )//Visibility
                                 }
                             )//Column
                         }

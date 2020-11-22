@@ -700,7 +700,7 @@ namespace UIWidgets.AddOns
                         new LayoutId(
                             id: _SliderLayout.track,
                             child: new ClipRRect(
-                               borderRadius: BorderRadius.all(Radius.circular(50f)),
+                               borderRadius: BorderRadius.all(Radius.circular(3f)),
                                child: new CustomPaint(
                                    painter: new TrackPainter(this.trackType,this.hsvColor)
                                 )//CustomPaint
@@ -724,6 +724,7 @@ namespace UIWidgets.AddOns
                                 builder:(BuildContext __, BoxConstraints _box)=>{
                                     RenderBox getBox = context.findRenderObject() as RenderBox;
                                     return new GestureDetector(
+                                        child: new Container(color:Colors.transparent),
                                         onPanDown:(DragDownDetails details)=> { slideEvent(getBox,box,details.globalPosition); },
                                         onPanUpdate:(DragUpdateDetails details )=>{  slideEvent(getBox,box,details.globalPosition); }
                                      );
