@@ -397,7 +397,7 @@ namespace UIWidgets.AddOns
                                 (!widget.showSliderText ? null : new Padding(
                                     padding: EdgeInsets.only(left:10f),
                                     child: new Text(
-                                        palette.ToString().Split('.').last<string>().ToUpper(),
+                                        palette.ToString().Split('.').last<string>().Substring(0,1).ToUpper(),
                                         style: widget.sliderTextStyle ?? Theme.of(context).textTheme.body1.copyWith(fontWeight:FontWeight.bold,fontSize: 16)
                                     )//Text
                                 )),//Padding
