@@ -230,8 +230,8 @@ namespace UIWidgets.AddOns
         public TextStyle labelTextStyle;
         public bool showIndicator;
         public Size indicatorSize;
-        public Alignment indicatorAlignmentBegin;
-        public Alignment indicatorAlignmentEnd;
+        //public AlignmentGeometry indicatorAlignmentBegin;
+        //public AlignmentGeometry indicatorAlignmentEnd;
         public bool displayThumbColor;
         public BorderRadius indicatorBorderRadius;
 
@@ -247,8 +247,8 @@ namespace UIWidgets.AddOns
             bool showLabel = true,
             bool showIndicator = true,
             Size indicatorSize = null,
-            Alignment indicatorAlignmentBegin = null,
-            Alignment indicatorAlignmentEnd = null,
+            //Alignment indicatorAlignmentBegin = null,
+            //Alignment indicatorAlignmentEnd = null,
             bool displayThumbColor = false,
             BorderRadius indicatorBorderRadius = null
             )
@@ -278,15 +278,15 @@ namespace UIWidgets.AddOns
             else
                 this.indicatorSize = indicatorSize;
 
-            if (indicatorAlignmentBegin == null)
-                this.indicatorAlignmentBegin = new Alignment(1f, 3f);
-            else
-                this.indicatorAlignmentBegin = indicatorAlignmentBegin;
+            //if (indicatorAlignmentBegin == null)
+            //    this.indicatorAlignmentBegin = new Alignment(1f, 3f);
+            //else
+            //    this.indicatorAlignmentBegin = indicatorAlignmentBegin;
 
-            if (indicatorAlignmentEnd == null)
-                this.indicatorAlignmentEnd = new Alignment(1f, 3f);
-            else
-                this.indicatorAlignmentEnd = indicatorAlignmentEnd;
+            //if (indicatorAlignmentEnd == null)
+            //    this.indicatorAlignmentEnd = new Alignment(1f, 3f);
+            //else
+            //    this.indicatorAlignmentEnd = indicatorAlignmentEnd;
 
             this.displayThumbColor = displayThumbColor;
 
@@ -327,6 +327,7 @@ namespace UIWidgets.AddOns
                 currentHsvColor,
                 (HSVColor color) =>
                 {
+                    //UnityEngine.Debug.Log(color.toColor());
                     setState(() => { currentHsvColor = color; });
                     widget.onColorChanged(currentHsvColor.toColor());
                 },
@@ -353,8 +354,10 @@ namespace UIWidgets.AddOns
                                 currentHsvColor.toColor(),
                                 currentHsvColor.toColor()
                             },
-                            begin: widget.indicatorAlignmentBegin,
-                            end: widget.indicatorAlignmentEnd,
+                            //begin: widget.indicatorAlignmentBegin,
+                            //end: widget.indicatorAlignmentEnd,
+                            begin: FractionalOffset.topLeft,
+                            end: FractionalOffset.bottomRight,
                             stops: new List<float> { 0f, 0.5f, 0.5f, 1f }
                         )//LinearGradient
                     ),//BoxDecoration
@@ -367,17 +370,16 @@ namespace UIWidgets.AddOns
         {
             List<TrackType> types = new List<TrackType>();
 
-
             switch (widget.paletteType)
             {
                 case PaletteType.hsv:
-                    types = new List<TrackType> { TrackType.hue, TrackType.saturation, TrackType.value };
+                    types = new List<TrackType> { TrackType.hue, TrackType.saturation, TrackType.value, TrackType.alpha };
                     break;
                 case PaletteType.hsl:
-                    types = new List<TrackType> { TrackType.hue, TrackType.saturationForHSL, TrackType.lightness };
+                    types = new List<TrackType> { TrackType.hue, TrackType.saturationForHSL, TrackType.lightness, TrackType.alpha };
                     break;
                 case PaletteType.rgb:
-                    types = new List<TrackType> { TrackType.red, TrackType.green, TrackType.blue };
+                    types = new List<TrackType> { TrackType.red, TrackType.green, TrackType.blue, TrackType.alpha };
                     break;
             }
 
@@ -387,6 +389,8 @@ namespace UIWidgets.AddOns
 
             foreach (var palette in types)
             {
+                if (!widget.enableAlpha && palette == TrackType.alpha) continue;
+
                 sliders.Add(
                     new SizedBox(
                         width: widget.sliderSize.width,
@@ -394,29 +398,33 @@ namespace UIWidgets.AddOns
                         child: new Row(
                             children: new List<Widget>
                             {
-                                (!widget.showSliderText ? null : new Padding(
-                                    padding: EdgeInsets.only(left:10f),
-                                    child: new Text(
-                                        palette.ToString().Split('.').last<string>().Substring(0,1).ToUpper(),
-                                        style: widget.sliderTextStyle ?? Theme.of(context).textTheme.body1.copyWith(fontWeight:FontWeight.bold,fontSize: 16)
-                                    )//Text
-                                )),//Padding
+                                new Visibility(
+                                    visible: widget.showSliderText,
+                                    child:
+                                        new Padding(
+                                            padding: EdgeInsets.only(left:10f),
+                                            child: new Text(
+                                                palette.ToString().Split('.').last<string>().Substring(0,1).ToUpper(),
+                                                style: widget.sliderTextStyle ?? Theme.of(context).textTheme.body1.copyWith(fontWeight:FontWeight.bold,fontSize: 16)
+                                            )//Text
+                                        )//Padding
+                                ),//Visibility
                                 new Expanded(child: colorPickerSlider(palette))
                             }
                         )//Row
                     )//SizedBox
                 );
             }
-            if (widget.enableAlpha)
-            {
-                sliders.Add(
-                    new SizedBox(
-                        height: 40,
-                        width: 260,
-                        child: colorPickerSlider(TrackType.alpha)
-                    )
-                );
-            }
+            //if (widget.enableAlpha)
+            //{
+            //    sliders.Add(
+            //        new SizedBox(
+            //            height: 40,
+            //            width: 260,
+            //            child: colorPickerSlider(TrackType.alpha)
+            //        )
+            //    );
+            //}
 
             return new Column(
                 mainAxisAlignment: MainAxisAlignment.center,

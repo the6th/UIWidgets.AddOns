@@ -19,6 +19,7 @@ namespace UIWidgets.AddOns
             double alpha = (double)color.alpha / 0xFF;
             double hue = _getHue(red, green, blue, max, delta);
             double saturation = max == 0.0 ? 0.0 : delta / max;
+            //UnityEngine.Debug.Log($"{alpha}/{hue}/{saturation}/{max}");
 
             return HSVColor.fromAHSV((float)alpha, (float)hue, (float)saturation, (float)max);
         }
@@ -44,7 +45,7 @@ namespace UIWidgets.AddOns
             }
 
             /// Set hue to 0.0 when red == green == blue.
-            hue = double.IsNaN(hue) ? 0.0 : hue;
+            hue = double.IsNaN(hue) || hue < 0.0 ? 0.0 : hue;
             return hue;
         }
     }
