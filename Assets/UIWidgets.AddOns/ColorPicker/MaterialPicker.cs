@@ -132,7 +132,6 @@ namespace UIWidgets.AddOns
             Orientation _orientation = MediaQuery.of(context).orientation;
             bool _isPortrait = _orientation == Orientation.portrait;
 
-
             Widget _colorList()
             {
                 var list = new List<Widget>();
@@ -163,14 +162,14 @@ namespace UIWidgets.AddOns
                                         decoration: new BoxDecoration(
                                             color: _colorType,
                                             borderRadius: BorderRadius.circular(60f),
-                                            boxShadow: new List<BoxShadow>{
-                                                (_currentColor != _colors ? null :
-                                                    (_colorType == Theme.of(context).cardColor
-                                                        ?  new BoxShadow(color: Colors.grey[300], blurRadius: 5f)
-                                                        : new BoxShadow(color: _colorType, blurRadius: 5f)
-                                                    )
-                                                )
-                                            },
+                                            //boxShadow: new List<BoxShadow>{
+                                            //    (_currentColor != _colors ? null :
+                                            //        (_colorType == Theme.of(context).cardColor
+                                            //            ?  new BoxShadow(color: Colors.grey[300], blurRadius: 5f)
+                                            //            : new BoxShadow(color: _colorType, blurRadius: 5f)
+                                            //        )
+                                            //    )
+                                            //},
                                             border: (_colorType == Theme.of(context).cardColor
                                             ? Border.all(color: Colors.grey[300], width: 1f)
                                             : null
@@ -237,31 +236,35 @@ namespace UIWidgets.AddOns
                                         height: _isPortrait ? 50f : 220f,
                                         decoration: new BoxDecoration(
                                             color: _color,
-                                            boxShadow: new List<BoxShadow>{
-                                                (_currentShading  != _color ? null :
-                                                    (_color == Theme.of(context).cardColor
-                                                        ?  new BoxShadow(color: Colors.grey[300], blurRadius: 5f)
-                                                        : new BoxShadow(color: _currentShading, blurRadius: 5f)
-                                                    )
-                                                )
-                                            },//List<BoxShadow>
+                                            //boxShadow: new List<BoxShadow>{
+                                            //    (_currentShading  != _color ? null :
+                                            //        (_color == Theme.of(context).cardColor
+                                            //            ?  new BoxShadow(color: Colors.grey[300], blurRadius: 5f)
+                                            //            : new BoxShadow(color: _currentShading, blurRadius: 5f)
+                                            //        )
+                                            //    )
+                                            //},//List<BoxShadow>
                                             border: (_color == Theme.of(context).cardColor
                                                 ? Border.all(color: Colors.grey[300], width: 1f)
-                                                : null
+                                                : Border.all(color: Colors.grey[300], width: 1f)
                                             )
                                         ),//BoxDecoration
                                         child: (_isPortrait && widget.enableLabel
-                                            ? new Align(
-                                                alignment: Alignment.centerRight,
-                                                child: new Text(
-                                                    "#" + _color.ToString().Replace("Color(0xff", "").Replace(")", "").ToUpper(),
-                                                    style: new TextStyle(
-                                                        color: Utils.useWhiteForeground(_color) ? Colors.white : Colors.black,
-                                                        fontWeight: FontWeight.bold
-                                                    )//TextStyle
-                                                )//Text
-                                            ) as Widget//Align
-                                            : new Container() as Widget
+                                            ? new Container(
+                                                color: _color,
+                                                child:
+                                                  new Align(
+                                                    alignment: Alignment.centerRight,
+                                                    child: new Text(
+                                                        "#" + _color.ToString().Replace("Color(0xFF", "").Replace(")", ""),
+                                                        style: new TextStyle(
+                                                            color: Utils.useWhiteForeground(_color) ? Colors.white : Colors.black,
+                                                            fontWeight: FontWeight.w100
+                                                        )//TextStyle
+                                                    )//Text
+                                                ) //Align
+                                            ) 
+                                            : new Container(color: _color) as Widget
                                         )//child
                                     )//AnimatedContainer
                                 )//Align
