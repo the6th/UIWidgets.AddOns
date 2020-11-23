@@ -92,5 +92,17 @@ namespace UIWidgets.AddOns
 
             return result;
         }
+
+        public static Unity.UIWidgets.ui.Color ToUIColor(this UnityEngine.Color color)
+        {
+            var uiColor = Color.fromARGB((int)(color.a *255), (int)(color.r * 255), (int)(color.g * 255), (int)(color.b * 255));
+            return uiColor;
+        }
+
+        public static UnityEngine.Color ToUnityColor(this Unity.UIWidgets.ui.Color color)
+        {
+            var unityColor = color.toColor();
+            return unityColor;
+        }
     }
 }
