@@ -6,6 +6,9 @@ using Unity.UIWidgets.material;
 using Unity.UIWidgets.painting;
 using Unity.UIWidgets.ui;
 using Unity.UIWidgets.widgets;
+using UnityEngine;
+using Color = Unity.UIWidgets.ui.Color;
+using Material = Unity.UIWidgets.material.Material;
 
 namespace UIWidgets.AddOns
 {
@@ -66,7 +69,7 @@ namespace UIWidgets.AddOns
             }
             return new Container(
                 width: orientation == Orientation.portrait ? 300f : 300f,
-                height: orientation == Orientation.portrait ? 360f : 200f,
+                height: orientation == Orientation.portrait ? Mathf.FloorToInt(list.Count / 4) * 60f : 200f,
                 child: GridView.count(
                     crossAxisCount: orientation == Orientation.portrait ? 4 : 6,
                     crossAxisSpacing: 5f,
