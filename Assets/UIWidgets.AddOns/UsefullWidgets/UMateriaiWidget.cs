@@ -257,7 +257,7 @@ namespace UIWidgets.AddOns
                             ),
                             child:new Container(
                                 alignment:Alignment.centerRight,
-                                child:new Text(value.ToString())
+                                child:new Text( $"{value:N1}")
                             )
                         )//ConstrainedBox
                     }//list
