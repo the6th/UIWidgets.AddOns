@@ -303,6 +303,44 @@ namespace UIWidgets.AddOns
             ); ;
         }
 
+        public static Widget SettingPasswordField(string title, string value, ValueChanged<string> valueChanged = null)
+        {
+            bool _showPassword = true;
+
+            TextEditingController _textEditingController = new TextEditingController(text: value);
+            return new Container(
+                padding: EdgeInsets.symmetric(horizontal: 6f),
+                child: new Row(
+                    children: new List<Widget>
+                    {
+                        new Container(child: new Text(title)),
+                        new Container(width:20),
+                        new Expanded(
+                            child: new Container(
+                                alignment: Alignment.bottomRight,
+                                child:  new TextField(
+                                    obscureText: _showPassword,
+                                    controller:_textEditingController,
+                                    //decoration: new InputDecoration(
+                                    //    labelText:"Password",
+                                    //    suffixIcon:  new IconButton(
+                                    //        icon: new Icon(_showPassword ? Unity.UIWidgets.material.Icons.delete : Unity.UIWidgets.material.Icons.accessible),
+                                    //        onPressed:()=>{
+                                    //            state.setState(()=>{
+                                    //                _showPassword =!_showPassword;
+                                    //            });
+                                    //        }//onPressed
+                                    //    )//IconButton
+                                    //),//InputDecoration
+                                    onChanged:valueChanged
+                                )
+                            )//container
+                        )//expanded
+                    }//list
+                )//row
+            ); ; ;
+        }
+
         public static Widget SettingButton(string title, string buttonName, VoidCallback onPressed = null)
         {
             return new Container(
