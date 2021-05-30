@@ -265,6 +265,19 @@ namespace UIWidgets.AddOns
             );
         }
 
+        public static Widget SettingLabel(string title)
+        {
+            return new Container(
+                padding: EdgeInsets.all(6f),// EdgeInsets.symmetric(horizontal: 6f, vertical: 6f),
+                child: new Row(
+                    children: new List<Widget>
+                    {
+                        new Container(child: new Text(title))
+                    }//list
+                )//row
+            );
+        }
+
         public static Widget SettingInputField(string title, string value, ValueChanged<string> valueChanged = null)
         {
             TextEditingController _textEditingController = new TextEditingController(text: value);
