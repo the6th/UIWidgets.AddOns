@@ -2,7 +2,7 @@
  Add-On packages for Unity [UIWidgets](https://github.com/UnityTech/UIWidgets)
  
  ## Requirements
- * Unity 2019.3.15f1 (I tried)
+ * Unity 2019.3.15f1 / Unity2019.4.16f1 (I tried)
  * UIWidgets 1.5.4  [Unity Asset Store](https://assetstore.unity.com/packages/tools/gui/uiwidgets-146398) | [GitHub](https://github.com/UnityTech/UIWidgets/releases)
  
  
@@ -30,6 +30,35 @@
  
      ![](docs/images/UserfullSettings.png) 
      ![](docs/images/UserfullSettings.gif)
+
+### 4. Markdown render
+
+* based on [Markdown-Renderer-For-UIWidgets](https://github.com/suntabu/Markdown-Renderer-For-UIWidgets/) by [suntabu](https://github.com/suntabu).
+
+    ![](docs/images/Markdown.gif) 
+* Example
+
+    ```cs
+    protected override Widget createWidget()
+    {
+        var title = "Markdown Demo";
+        return new MaterialApp(
+            title: title,
+            showPerformanceOverlay: false,
+            home: new Scaffold(
+                appBar: new AppBar(
+                    title: new Text(title)
+                ),//AppBar
+                body: new Markdown(
+                    key: null,
+                    data: (string) markdownText,
+                    syntaxHighlighter: new DartSyntaxHighlighter(SyntaxHighlighterStyle.lightThemeStyle()),
+                    onTapLink: url => { Application.OpenURL(url); }
+                )//Markdown
+            )//Scaffold
+        );
+    }
+    ```
 
  ## License 
  * MIT License

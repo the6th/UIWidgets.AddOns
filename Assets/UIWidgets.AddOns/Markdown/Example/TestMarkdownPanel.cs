@@ -105,15 +105,9 @@ This is using the [NanoHTTPD](https://github.com/NanoHttpd/nanohttpd) library.
 
             protected override Widget createWidget()
             {
-                var headerStyle = new TextStyle(inherit: false, fontSize: 45.0f, color: Colors.red);
-                var xstyleSheet = MarkdownStyleSheet.fromTheme(new ThemeData(brightness: Brightness.light, fontFamily: "Avenir")); ;
-                xstyleSheet.h1 = headerStyle;
-                xstyleSheet.h2 = headerStyle;
-                xstyleSheet.p = headerStyle; 
-
                 var title = "Markdown Demo";
                 return new MaterialApp(
-                    title: "Markdown Demo",
+                    title: title,
                     showPerformanceOverlay: false,
                     home: new Scaffold(
                         appBar: new AppBar(
@@ -122,7 +116,6 @@ This is using the [NanoHTTPD](https://github.com/NanoHttpd/nanohttpd) library.
                         body: new Markdown(
                             key: null,
                             data: markdownData1,
-                            styleSheet: null,
                             syntaxHighlighter: new DartSyntaxHighlighter(SyntaxHighlighterStyle.lightThemeStyle()),
                             onTapLink: url => { Application.OpenURL(url); }
                         )//Markdown
