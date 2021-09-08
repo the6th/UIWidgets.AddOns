@@ -310,8 +310,8 @@ namespace UIWidgets.AddOns
             var path = new Path();
             path.addOval(
                 Rect.fromCircle(
-                    center: new Offset(0.5f, 2f),
-                    radius: size.width * 1.8f)
+                    center: new Offset(0f, 0f),
+                    radius: 0f)
             );
 
             canvas.drawShadow(path, Colors.black, 3f, true);
@@ -688,7 +688,7 @@ namespace UIWidgets.AddOns
                         thumbOffset += (box.maxWidth - 30f) * hsvColor.toColor().opacity;
                         _thumbColor = Colors.black.withOpacity(hsvColor.alpha);
                         break;
-                }//switch 
+                }//switch
 
                 return new CustomMultiChildLayout(
                     layoutDelegate: new _SliderLayout(),
